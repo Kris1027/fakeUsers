@@ -43,6 +43,11 @@ function App() {
     setData(update);
   };
 
+  const deleteUser = (id) => {
+    const update = data.filter((user) => user.id !== id);
+    setData(update);
+  };
+
   return (
     <div className='flex flex-col items-center'>
       <h1 className='text-7xl text-center'>fakeUsers</h1>
@@ -51,6 +56,7 @@ function App() {
           key={user.id}
           first_name={user.first_name}
           last_name={user.last_name}
+          onDelete={() => deleteUser(user.id)}
         />
       ))}
 
