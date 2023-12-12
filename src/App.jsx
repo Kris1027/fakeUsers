@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
+
+import { GiBoomerangSun, GiMoonBats } from 'react-icons/gi';
+
 import User from './components/User';
 import AddUser from './components/AddUser';
 
@@ -7,6 +10,8 @@ function App() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     function fakeUsers() {
@@ -38,6 +43,17 @@ function App() {
     return <p>Error: {error}</p>;
   }
 
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+  };
+
+  const body = document.body;
+  if (darkMode) {
+    body.style.backgroundColor = 'black';
+  } else {
+    body.style.backgroundColor = 'pink';
+  }
+
   const handleAddUser = (newUser) => {
     const update = [...data, newUser];
     setData(update);
@@ -56,21 +72,28 @@ function App() {
   };
 
   return (
-    <div className='flex flex-col items-center'>
-      <h1 className='text-7xl text-center'>fakeUsers</h1>
-      {data.map((user) => (
-        <User
-          key={user.id}
-          first_name={user.first_name}
-          last_name={user.last_name}
-          onDelete={() => handleDeleteUser(user.id)}
-          onUpdate={(updatedUserData) =>
-            handleUpdateUser(user.id, updatedUserData)
-          }
-        />
-      ))}
+    <div className={darkMode && 'dark'}>
+      <div className='flex flex-col items-center'>
+        <h1 className='text-7xl text-center dark:text-violet-900 text-violet-500 font-extrabold flex gap-10 p-4'>
+          fakeUsers
+          <button onClick={toggleTheme}>
+            {darkMode ? <GiMoonBats /> : <GiBoomerangSun />}
+          </button>
+        </h1>
+        {data.map((user) => (
+          <User
+            key={user.id}
+            first_name={user.first_name}
+            last_name={user.last_name}
+            onDelete={() => handleDeleteUser(user.id)}
+            onUpdate={(updatedUserData) =>
+              handleUpdateUser(user.id, updatedUserData)
+            }
+          />
+        ))}
 
-      <AddUser onAdd={handleAddUser} />
+        <AddUser onAdd={handleAddUser} />
+      </div>
     </div>
   );
 }

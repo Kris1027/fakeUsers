@@ -18,25 +18,31 @@ export default function UpdateUser({
   };
 
   return (
-    <form className='flex' onSubmit={handleEditUser}>
+    <form className='flex gap-2' onSubmit={handleEditUser}>
       <input
-        className='focus:outline-none'
+        className='focus:outline-none text-rose-950 bg-rose-100 dark:text-rose-100 dark:bg-pink-900 p-2 rounded-md'
         value={updatedFirstName}
         onChange={(e) => setUpdatedFirstName(e.target.value)}
         type='text'
         placeholder='First name'
       />
       <input
-        className='flex focus:outline-none'
+        className='focus:outline-none text-rose-950 bg-rose-100 dark:text-rose-100 dark:bg-pink-900 p-2 rounded-md'
         value={updatedLastName}
         onChange={(e) => setUpdatedLastName(e.target.value)}
         type='text'
         placeholder='Last name'
       />
-      <button onClick={() => setShowEdit(false)}>
+      <button
+        className='text-2xl hover:scale-110 active:scale-90'
+        onClick={() => setShowEdit(false)}
+      >
         <MdClose />
       </button>
-      <button type='submit'>
+      <button
+        className='text-2xl hover:scale-110 active:scale-90'
+        type='submit'
+      >
         <MdOutlineCheckCircle />
       </button>
     </form>
