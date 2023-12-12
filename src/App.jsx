@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import User from './components/User';
+import AddUser from './components/AddUser';
 
 function App() {
   const [data, setData] = useState([]);
@@ -37,8 +38,14 @@ function App() {
     <p>Error: {error}</p>;
   }
 
+  const handleAddUser = (newUser) => {
+    const update = [...data, newUser];
+    setData(update);
+  };
+
   return (
-    <div>
+    <div className='flex flex-col items-center'>
+      <h1 className='text-7xl text-center'>fakeUsers</h1>
       {data.map((user) => (
         <User
           key={user.id}
@@ -46,6 +53,8 @@ function App() {
           last_name={user.last_name}
         />
       ))}
+
+      <AddUser onAdd={handleAddUser} />
     </div>
   );
 }
