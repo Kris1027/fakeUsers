@@ -35,7 +35,7 @@ function App() {
   }
 
   if (error) {
-    <p>Error: {error}</p>;
+    return <p>Error: {error}</p>;
   }
 
   const handleAddUser = (newUser) => {
@@ -43,8 +43,15 @@ function App() {
     setData(update);
   };
 
-  const deleteUser = (id) => {
+  const handleDeleteUser = (id) => {
     const update = data.filter((user) => user.id !== id);
+    setData(update);
+  };
+
+  const handleUpdateUser = (id, updatedUserData) => {
+    const update = data.map((user) =>
+      user.id === id ? { ...user, ...updatedUserData } : user
+    );
     setData(update);
   };
 
@@ -56,7 +63,10 @@ function App() {
           key={user.id}
           first_name={user.first_name}
           last_name={user.last_name}
-          onDelete={() => deleteUser(user.id)}
+          onDelete={() => handleDeleteUser(user.id)}
+          onUpdate={(updatedUserData) =>
+            handleUpdateUser(user.id, updatedUserData)
+          }
         />
       ))}
 

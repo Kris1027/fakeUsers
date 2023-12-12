@@ -7,6 +7,9 @@ export default function AddUser({ onAdd }) {
   const handleAddUser = (e) => {
     e.preventDefault();
 
+    if (firstName.trim() === '' || lastName.trim() === '')
+      return alert('Please fill the fields');
+
     const randomId = Math.floor(Math.random() * 100);
 
     const newUser = {
