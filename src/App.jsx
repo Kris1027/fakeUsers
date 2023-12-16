@@ -5,6 +5,7 @@ import { GiBoomerangSun, GiMoonBats } from 'react-icons/gi';
 
 import User from './components/User';
 import AddUser from './components/AddUser';
+import clsx from 'clsx';
 
 function App() {
   const [data, setData] = useState([]);
@@ -60,8 +61,20 @@ function App() {
   };
 
   const handleDeleteUser = (id) => {
-    const update = data.filter((user) => user.id !== id);
-    setData(update);
+    fetch(`https://reqres.in/api/users/${id}`, {
+      method: 'DELETE',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const update = data.filter((user) => user.id !== id);
+        setData(update);
+        console.log('Success:', response);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   };
 
   const handleUpdateUser = (id, updatedUserData) => {
@@ -72,7 +85,7 @@ function App() {
   };
 
   return (
-    <div className={darkMode && 'dark'}>
+    <div className={clsx(darkMode && 'dark')}>
       <div className='flex flex-col items-center'>
         <h1 className='text-7xl text-center dark:text-violet-900 text-violet-500 font-extrabold flex gap-10 p-4'>
           fakeUsers

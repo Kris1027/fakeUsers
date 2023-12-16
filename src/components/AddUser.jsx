@@ -12,7 +12,7 @@ export default function AddUser({ onAdd }) {
     if (firstName.trim() === '' || lastName.trim() === '')
       return alert('Please fill the fields');
 
-    const randomId = Math.floor(Math.random() * 100);
+    const randomId = Math.floor(Math.random() * 10000) + 1;
 
     const newUser = {
       id: randomId,
@@ -20,10 +20,23 @@ export default function AddUser({ onAdd }) {
       last_name: lastName,
     };
 
-    onAdd(newUser);
-
-    setFirstName('');
-    setLastName('');
+    fetch('https://reqres.in/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newUser),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+        onAdd(newUser);
+        setFirstName('');
+        setLastName('');
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+      });
   };
 
   return (
