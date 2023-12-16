@@ -1,18 +1,23 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 
+import { useData } from './contexts/dataContext';
+
+import clsx from 'clsx';
 import { GiBoomerangSun, GiMoonBats } from 'react-icons/gi';
 
 import User from './components/User';
 import AddUser from './components/AddUser';
-import clsx from 'clsx';
+import useDeleteUser from './hooks/useDeleteUser';
 
 function App() {
-  const [data, setData] = useState([]);
+  const { data, setData } = useData();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const [darkMode, setDarkMode] = useState(false);
+
+  const DeleteUser = useDeleteUser();
 
   useEffect(() => {
     function fakeUsers() {
@@ -34,7 +39,7 @@ function App() {
     }
 
     fakeUsers();
-  }, []);
+  }, [setData]);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -60,23 +65,6 @@ function App() {
     setData(update);
   };
 
-  const handleDeleteUser = (id) => {
-    fetch(`https://reqres.in/api/users/${id}`, {
-      method: 'DELETE',
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const update = data.filter((user) => user.id !== id);
-        setData(update);
-        console.log('Success:', response);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
-
   const handleUpdateUser = (id, updatedUserData) => {
     const update = data.map((user) =>
       user.id === id ? { ...user, ...updatedUserData } : user
@@ -98,7 +86,7 @@ function App() {
             key={user.id}
             first_name={user.first_name}
             last_name={user.last_name}
-            onDelete={() => handleDeleteUser(user.id)}
+            onDelete={() => DeleteUser(user.id)}
             onUpdate={(updatedUserData) =>
               handleUpdateUser(user.id, updatedUserData)
             }
