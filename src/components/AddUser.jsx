@@ -14,15 +14,16 @@ export default function AddUser() {
     e.preventDefault();
 
     if (firstName.trim() === '' || lastName.trim() === '') return;
+    const imageUrl = image ? image : 'https://i.pravatar.cc/';
 
-    createUser({ first_name: firstName, last_name: lastName, avatar: image });
+    createUser({
+      first_name: firstName,
+      last_name: lastName,
+      avatar: imageUrl,
+    });
     setFirstName('');
     setLastName('');
     setImage(null);
-  };
-
-  const handleAddImage = (e) => {
-    setImage(URL.createObjectURL(e.target.files[0]));
   };
 
   return (
@@ -39,7 +40,10 @@ export default function AddUser() {
         type='text'
         placeholder='last name'
       />
-      <Input type='file' onChange={handleAddImage} />
+      <Input
+        type='file'
+        onChange={(e) => setImage(URL.createObjectURL(e.target.files[0]))}
+      />
       <Button type='submit'>
         <MdAddReaction />
       </Button>
