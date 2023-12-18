@@ -11,17 +11,20 @@ export default function EditUser({
   id,
   setShowEdit,
   showEdit,
+  image,
 }) {
   const [updatedFirstName, setUpdatedFirstName] = useState(first_name);
   const [updatedLastName, setUpdatedLastName] = useState(last_name);
+  const [updatedImage, setUpdatedImage] = useState(image);
   const updateUser = useUpdateUser();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     updateUser(id, {
+      id,
       first_name: updatedFirstName,
       last_name: updatedLastName,
-      id,
+      avatar: updatedImage,
     });
 
     setShowEdit(!showEdit);
@@ -42,6 +45,12 @@ export default function EditUser({
         type='text'
         value={updatedLastName}
         onChange={(e) => setUpdatedLastName(e.target.value)}
+      />
+      <Input
+        type='file'
+        onChange={(e) =>
+          setUpdatedImage(URL.createObjectURL(e.target.files[0]))
+        }
       />
       <Button onClick={handleCancel}>
         <MdCancel />

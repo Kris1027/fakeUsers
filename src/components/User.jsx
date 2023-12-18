@@ -22,6 +22,7 @@ export default function User({ first_name, last_name, id, image }) {
           id={id}
           setShowEdit={setShowEdit}
           showEdit={showEdit}
+          image={image}
         />
       ) : (
         <>
