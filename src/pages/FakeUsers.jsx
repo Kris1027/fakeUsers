@@ -25,6 +25,7 @@ export default function FakeUsers() {
           <User
             key={user.id}
             id={user.id}
+            image={user.avatar}
             first_name={user.first_name}
             last_name={user.last_name}
           />
